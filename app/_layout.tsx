@@ -1,6 +1,8 @@
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import DeveloperCredit from "../components/DeveloperCredit";
 import SplashScreenComponent from "../components/SplashScreen";
 
 export default function RootLayout() {
@@ -39,13 +41,37 @@ export default function RootLayout() {
   }
 
   if (showSplash) {
-    return <SplashScreenComponent onFinish={onSplashFinish} />;
+    return (
+      <>
+        <SplashScreenComponent onFinish={onSplashFinish} />
+        <View style={styles.developerCreditContainer}>
+          <DeveloperCredit />
+        </View>
+      </>
+    );
   }
 
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+    <>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="auth" />
+      </Stack>
+      <View style={styles.developerCreditContainer}>
+        <DeveloperCredit />
+      </View>
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  developerCreditContainer: {
+    position: 'absolute',
+    bottom: 10,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    zIndex: 999,
+  }
+});
